@@ -10,12 +10,21 @@ namespace DolphinConfigEditor
 {
   public partial class ConfigEditor : Form
   {
+    [STAThread]
+    static void Main()
+    {
+      Application.EnableVisualStyles();
+      Application.SetCompatibleTextRenderingDefault(false);
+      Application.Run(new ConfigEditor());
+    }
+
     public ConfigEditor()
     {
       InitializeComponent();
-      
+
       playerListGrid.Columns[CID].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
       playerListGrid.Columns[DEADZONE].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+      playerListGrid.Columns[LOCKORDER].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
       for (int i = 0; i < 8; i++)
       {
         playerListGrid.Rows.Add();
@@ -25,17 +34,24 @@ namespace DolphinConfigEditor
         playerListGrid.Rows[i].Cells[DEADZONE].Value = "10";
         playerListGrid.Rows[i].Cells[DEADZONE].Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
         playerListGrid.Rows[i].Cells[PORT].Value = $"Player {(i / 2) + 1}";
-        sortList[i] = playerListGrid.Rows[i].Cells[PORT].Value.ToString();
+        playerListGrid.Rows[i].Cells[LOCKORDER].Value = "false";
       }
     }
 
     private void btnRandomize_Click(object sender, EventArgs e)
     {
       playerListGrid.ClearSelection();
-      sortList = sortList.OrderBy(x => rnd.Next()).ToArray();
 
-      for (int i = 0; i < 8; i++)
-        playerListGrid.Rows[i].Cells[PORT].Value = sortList[i];
+      var sortList = new System.Collections.Generic.List<string>();
+      for (int i = 0; i < playerListGrid.Rows.Count; i++)
+        if (playerListGrid.Rows[i].Cells[LOCKORDER].Value.ToString().Equals("false"))
+          sortList.Add(playerListGrid.Rows[i].Cells[PORT].Value.ToString());
+      sortList = sortList.OrderBy(r => rnd.Next()).ToList();
+
+      int sortListIdx = 0;
+      for (int i = 0; i < playerListGrid.Rows.Count; i++)
+        if (playerListGrid.Rows[i].Cells[LOCKORDER].Value.ToString().Equals("false"))
+          playerListGrid.Rows[i].Cells[PORT].Value = sortList[sortListIdx++];
 
       playerListGrid.Sort(playerListGrid.Columns[PORT], ListSortDirection.Ascending);
       System.Media.SystemSounds.Beep.Play();
@@ -74,7 +90,7 @@ namespace DolphinConfigEditor
         sw.Close();
         System.Media.SystemSounds.Beep.Play();
       }
-      catch (Exception ex)
+      catch (Exception)
       {
         Clipboard.SetText(fileOutput);
         MessageBox.Show("There was an error writing to the config file :(\n\n" +
@@ -82,6 +98,21 @@ namespace DolphinConfigEditor
           "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         Console.WriteLine(fileOutput);
       }
+    }
+
+    private void gameCtrlsBtn_Click(object sender, EventArgs e)
+    {
+      try
+      {
+        var path = System.Environment.GetFolderPath(Environment.SpecialFolder.System) + "\\joy.cpl";
+        var fi = new System.IO.FileInfo(path);
+        var psi = new System.Diagnostics.ProcessStartInfo(path);
+        psi.UseShellExecute = true;
+        psi.WorkingDirectory = fi.Directory.FullName;
+        psi.ErrorDialog = true;
+        System.Diagnostics.Process.Start(psi);
+      }
+      catch (Exception) { }
     }
 
     private void btnCfgOpen_Click(object sender, EventArgs e)
@@ -97,10 +128,7 @@ namespace DolphinConfigEditor
       DataGridView datagridview = sender as DataGridView;
 
       if (datagridview.Columns[e.ColumnIndex] is DataGridViewComboBoxColumn && validClick)
-      {
         datagridview.BeginEdit(true);
-        // ((ComboBox)datagridview.EditingControl).DroppedDown = true;
-      }
     }
 
     private void playerListGrid_CurrentCellDirtyStateChanged(object sender, EventArgs e)
@@ -125,8 +153,8 @@ namespace DolphinConfigEditor
     private static int LAYOUT = 2;
     private static int DEADZONE = 3;
     private static int PORT = 4;
+    private static int LOCKORDER = 5;
 
-    private string[] sortList = new string[8];
     private Random rnd = new Random();
   }
 }

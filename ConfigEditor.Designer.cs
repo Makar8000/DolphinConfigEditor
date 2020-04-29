@@ -30,17 +30,19 @@
     {
       System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConfigEditor));
       this.playerListGrid = new System.Windows.Forms.DataGridView();
-      this.colPlayerName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-      this.colCID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-      this.colLayout = new System.Windows.Forms.DataGridViewComboBoxColumn();
-      this.colDeadZone = new System.Windows.Forms.DataGridViewTextBoxColumn();
-      this.colPort = new System.Windows.Forms.DataGridViewComboBoxColumn();
       this.btnSaveCfg = new System.Windows.Forms.Button();
       this.btnRandomize = new System.Windows.Forms.Button();
       this.openConfigDialog = new System.Windows.Forms.OpenFileDialog();
       this.btnCfgOpen = new System.Windows.Forms.Button();
       this.lblCfgLoc = new System.Windows.Forms.Label();
       this.txtConfigFile = new System.Windows.Forms.TextBox();
+      this.gameCtrlsBtn = new System.Windows.Forms.Button();
+      this.colPlayerName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+      this.colCID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+      this.colLayout = new System.Windows.Forms.DataGridViewComboBoxColumn();
+      this.colDeadZone = new System.Windows.Forms.DataGridViewTextBoxColumn();
+      this.colPort = new System.Windows.Forms.DataGridViewComboBoxColumn();
+      this.colLockOrder = new System.Windows.Forms.DataGridViewCheckBoxColumn();
       ((System.ComponentModel.ISupportInitialize)(this.playerListGrid)).BeginInit();
       this.SuspendLayout();
       // 
@@ -58,16 +60,92 @@
             this.colCID,
             this.colLayout,
             this.colDeadZone,
-            this.colPort});
+            this.colPort,
+            this.colLockOrder});
       this.playerListGrid.Location = new System.Drawing.Point(12, 12);
       this.playerListGrid.Name = "playerListGrid";
       this.playerListGrid.RowHeadersVisible = false;
       this.playerListGrid.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-      this.playerListGrid.Size = new System.Drawing.Size(422, 199);
+      this.playerListGrid.Size = new System.Drawing.Size(423, 199);
       this.playerListGrid.TabIndex = 0;
       this.playerListGrid.CellEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.playerListGrid_CellEnter);
       this.playerListGrid.CurrentCellDirtyStateChanged += new System.EventHandler(this.playerListGrid_CurrentCellDirtyStateChanged);
       this.playerListGrid.SortCompare += new System.Windows.Forms.DataGridViewSortCompareEventHandler(this.playerListGrid_SortCompare);
+      // 
+      // btnSaveCfg
+      // 
+      this.btnSaveCfg.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+      this.btnSaveCfg.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+      this.btnSaveCfg.Location = new System.Drawing.Point(12, 301);
+      this.btnSaveCfg.Name = "btnSaveCfg";
+      this.btnSaveCfg.Size = new System.Drawing.Size(423, 40);
+      this.btnSaveCfg.TabIndex = 1;
+      this.btnSaveCfg.Text = "Save Config";
+      this.btnSaveCfg.UseVisualStyleBackColor = true;
+      this.btnSaveCfg.Click += new System.EventHandler(this.btnSaveCfg_Click);
+      // 
+      // btnRandomize
+      // 
+      this.btnRandomize.Location = new System.Drawing.Point(11, 217);
+      this.btnRandomize.Name = "btnRandomize";
+      this.btnRandomize.Size = new System.Drawing.Size(121, 23);
+      this.btnRandomize.TabIndex = 4;
+      this.btnRandomize.Text = "Randomize Groups";
+      this.btnRandomize.UseVisualStyleBackColor = true;
+      this.btnRandomize.Click += new System.EventHandler(this.btnRandomize_Click);
+      // 
+      // openConfigDialog
+      // 
+      this.openConfigDialog.AddExtension = false;
+      this.openConfigDialog.FileName = "GCPadNew.ini";
+      this.openConfigDialog.Filter = "GCPadNew|GCPadNew.ini";
+      this.openConfigDialog.InitialDirectory = "D:\\Users\\Mark\\Source\\Repos\\dolphin\\Binary\\x64\\User\\Config\\";
+      this.openConfigDialog.Title = "Select GCPadNew.ini";
+      // 
+      // btnCfgOpen
+      // 
+      this.btnCfgOpen.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+      this.btnCfgOpen.Location = new System.Drawing.Point(404, 272);
+      this.btnCfgOpen.Name = "btnCfgOpen";
+      this.btnCfgOpen.Size = new System.Drawing.Size(31, 23);
+      this.btnCfgOpen.TabIndex = 5;
+      this.btnCfgOpen.Text = "...";
+      this.btnCfgOpen.UseVisualStyleBackColor = true;
+      this.btnCfgOpen.Click += new System.EventHandler(this.btnCfgOpen_Click);
+      // 
+      // lblCfgLoc
+      // 
+      this.lblCfgLoc.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+      this.lblCfgLoc.AutoSize = true;
+      this.lblCfgLoc.Location = new System.Drawing.Point(13, 258);
+      this.lblCfgLoc.Name = "lblCfgLoc";
+      this.lblCfgLoc.Size = new System.Drawing.Size(56, 13);
+      this.lblCfgLoc.TabIndex = 6;
+      this.lblCfgLoc.Text = "Config File";
+      // 
+      // txtConfigFile
+      // 
+      this.txtConfigFile.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+      this.txtConfigFile.Location = new System.Drawing.Point(12, 274);
+      this.txtConfigFile.Name = "txtConfigFile";
+      this.txtConfigFile.ReadOnly = true;
+      this.txtConfigFile.Size = new System.Drawing.Size(386, 20);
+      this.txtConfigFile.TabIndex = 7;
+      this.txtConfigFile.Text = "D:\\Users\\Mark\\Source\\Repos\\dolphin\\Binary\\x64\\User\\Config\\GCPadNew.ini";
+      // 
+      // gameCtrlsBtn
+      // 
+      this.gameCtrlsBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+      this.gameCtrlsBtn.Location = new System.Drawing.Point(314, 217);
+      this.gameCtrlsBtn.Name = "gameCtrlsBtn";
+      this.gameCtrlsBtn.Size = new System.Drawing.Size(121, 23);
+      this.gameCtrlsBtn.TabIndex = 8;
+      this.gameCtrlsBtn.Text = "Game Controllers...";
+      this.gameCtrlsBtn.UseVisualStyleBackColor = true;
+      this.gameCtrlsBtn.Click += new System.EventHandler(this.gameCtrlsBtn_Click);
       // 
       // colPlayerName
       // 
@@ -129,76 +207,24 @@
       this.colPort.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
       this.colPort.ToolTipText = "Controller Port";
       // 
-      // btnSaveCfg
+      // colLockOrder
       // 
-      this.btnSaveCfg.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-      this.btnSaveCfg.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-      this.btnSaveCfg.Location = new System.Drawing.Point(12, 300);
-      this.btnSaveCfg.Name = "btnSaveCfg";
-      this.btnSaveCfg.Size = new System.Drawing.Size(422, 40);
-      this.btnSaveCfg.TabIndex = 1;
-      this.btnSaveCfg.Text = "Save Config";
-      this.btnSaveCfg.UseVisualStyleBackColor = true;
-      this.btnSaveCfg.Click += new System.EventHandler(this.btnSaveCfg_Click);
-      // 
-      // btnRandomize
-      // 
-      this.btnRandomize.Location = new System.Drawing.Point(11, 217);
-      this.btnRandomize.Name = "btnRandomize";
-      this.btnRandomize.Size = new System.Drawing.Size(121, 23);
-      this.btnRandomize.TabIndex = 4;
-      this.btnRandomize.Text = "Randomize Groups";
-      this.btnRandomize.UseVisualStyleBackColor = true;
-      this.btnRandomize.Click += new System.EventHandler(this.btnRandomize_Click);
-      // 
-      // openConfigDialog
-      // 
-      this.openConfigDialog.AddExtension = false;
-      this.openConfigDialog.FileName = "GCPadNew.ini";
-      this.openConfigDialog.Filter = "GCPadNew|GCPadNew.ini";
-      this.openConfigDialog.InitialDirectory = "D:\\Users\\Mark\\Source\\Repos\\dolphin\\Binary\\x64\\User\\Config\\";
-      this.openConfigDialog.Title = "Select GCPadNew.ini";
-      // 
-      // btnCfgOpen
-      // 
-      this.btnCfgOpen.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-      this.btnCfgOpen.Location = new System.Drawing.Point(403, 272);
-      this.btnCfgOpen.Name = "btnCfgOpen";
-      this.btnCfgOpen.Size = new System.Drawing.Size(31, 23);
-      this.btnCfgOpen.TabIndex = 5;
-      this.btnCfgOpen.Text = "...";
-      this.btnCfgOpen.UseVisualStyleBackColor = true;
-      this.btnCfgOpen.Click += new System.EventHandler(this.btnCfgOpen_Click);
-      // 
-      // lblCfgLoc
-      // 
-      this.lblCfgLoc.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-      this.lblCfgLoc.AutoSize = true;
-      this.lblCfgLoc.Location = new System.Drawing.Point(13, 258);
-      this.lblCfgLoc.Name = "lblCfgLoc";
-      this.lblCfgLoc.Size = new System.Drawing.Size(56, 13);
-      this.lblCfgLoc.TabIndex = 6;
-      this.lblCfgLoc.Text = "Config File";
-      // 
-      // txtConfigFile
-      // 
-      this.txtConfigFile.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-      this.txtConfigFile.Location = new System.Drawing.Point(12, 274);
-      this.txtConfigFile.Name = "txtConfigFile";
-      this.txtConfigFile.ReadOnly = true;
-      this.txtConfigFile.Size = new System.Drawing.Size(385, 20);
-      this.txtConfigFile.TabIndex = 7;
-      this.txtConfigFile.Text = "D:\\Users\\Mark\\Source\\Repos\\dolphin\\Binary\\x64\\User\\Config\\GCPadNew.ini";
+      this.colLockOrder.FalseValue = "false";
+      this.colLockOrder.HeaderText = "Lock";
+      this.colLockOrder.MinimumWidth = 35;
+      this.colLockOrder.Name = "colLockOrder";
+      this.colLockOrder.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+      this.colLockOrder.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+      this.colLockOrder.TrueValue = "true";
+      this.colLockOrder.Width = 35;
       // 
       // ConfigEditor
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.AutoScroll = true;
-      this.ClientSize = new System.Drawing.Size(446, 352);
+      this.ClientSize = new System.Drawing.Size(447, 353);
+      this.Controls.Add(this.gameCtrlsBtn);
       this.Controls.Add(this.txtConfigFile);
       this.Controls.Add(this.lblCfgLoc);
       this.Controls.Add(this.btnCfgOpen);
@@ -224,11 +250,13 @@
     private System.Windows.Forms.Button btnCfgOpen;
     private System.Windows.Forms.Label lblCfgLoc;
     private System.Windows.Forms.TextBox txtConfigFile;
+    private System.Windows.Forms.Button gameCtrlsBtn;
     private System.Windows.Forms.DataGridViewTextBoxColumn colPlayerName;
     private System.Windows.Forms.DataGridViewTextBoxColumn colCID;
     private System.Windows.Forms.DataGridViewComboBoxColumn colLayout;
     private System.Windows.Forms.DataGridViewTextBoxColumn colDeadZone;
     private System.Windows.Forms.DataGridViewComboBoxColumn colPort;
+    private System.Windows.Forms.DataGridViewCheckBoxColumn colLockOrder;
   }
 }
 
