@@ -56,6 +56,7 @@ namespace DolphinConfigEditor.Model
       cfg += $"D-Pad/Left = {p1.DPadLeft}|{p2.DPadLeft}\n";
       cfg += $"D-Pad/Right = {p1.DPadRight}|{p2.DPadRight}\n";
 
+      cfg += $"Rumble/Motor = {p1.Rumble}|{p2.Rumble}\n";
       cfg += $"Main Stick/Dead Zone = {Math.Max(dz1, dz2)}.0\n";
       cfg += $"C-Stick/Dead Zone = {Math.Max(dz1, dz2)}.0\n";
 

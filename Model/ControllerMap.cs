@@ -28,6 +28,8 @@
     public string DPadLeft { get; set; }
     public string DPadRight { get; set; }
 
+    public string Rumble { get; set; }
+
     public static ControllerMap GetMap(int cid, string layout)
     {
       if (layout == "Keyboard")
@@ -65,6 +67,8 @@
       c.DPadLeft = $"`WGInput/{cid}/Xbox 360 Controller for Windows:Pad W`";
       c.DPadRight = $"`WGInput/{cid}/Xbox 360 Controller for Windows:Pad E`";
 
+      c.Rumble = $"`WGInput/{cid}/Xbox 360 Controller for Windows:Motor L`|`WGInput/{cid}/Xbox 360 Controller for Windows:Motor R`";
+
       return c;
     }
 
@@ -97,6 +101,8 @@
       c.DPadDown = "``";
       c.DPadLeft = "``";
       c.DPadRight = "``";
+
+      c.Rumble = "``";
 
       return c;
     }
