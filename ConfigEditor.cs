@@ -31,7 +31,7 @@ namespace DolphinConfigEditor
         playerListGrid.Rows[i].Cells[CID].Value = $"{i}";
         playerListGrid.Rows[i].Cells[CID].Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
         playerListGrid.Rows[i].Cells[LAYOUT].Value = "Xbox";
-        playerListGrid.Rows[i].Cells[DEADZONE].Value = "10";
+        playerListGrid.Rows[i].Cells[DEADZONE].Value = "15";
         playerListGrid.Rows[i].Cells[DEADZONE].Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
         playerListGrid.Rows[i].Cells[PORT].Value = $"Player {(i / 2) + 1}";
         playerListGrid.Rows[i].Cells[LOCKORDER].Value = "false";
