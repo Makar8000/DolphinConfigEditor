@@ -1,7 +1,5 @@
-﻿namespace DolphinConfigEditor.Model
-{
-  class ControllerMap
-  {
+﻿namespace DolphinConfigEditor.Model {
+  class ControllerMap {
     public string ButtonA { get; set; }
     public string ButtonB { get; set; }
     public string ButtonX { get; set; }
@@ -30,15 +28,13 @@
 
     public string Rumble { get; set; }
 
-    public static ControllerMap GetMap(int cid, string layout)
-    {
+    public static ControllerMap GetMap(int cid, string layout) {
       if (layout == "Keyboard")
         return GetMapKB();
       return GetMapController(cid, layout);
     }
 
-    private static ControllerMap GetMapController(int cid, string layout)
-    {
+    private static ControllerMap GetMapController(int cid, string layout) {
       ControllerMap c = new ControllerMap();
 
       c.ButtonA = $"`WGInput/{cid}/Xbox 360 Controller for Windows:Button {(layout == "Xbox" ? 'A' : 'B')}`";
@@ -72,8 +68,7 @@
       return c;
     }
 
-    private static ControllerMap GetMapKB()
-    {
+    private static ControllerMap GetMapKB() {
       ControllerMap c = new ControllerMap();
 
       c.ButtonA = "J";

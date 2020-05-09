@@ -1,11 +1,8 @@
 ﻿using System;
 
-namespace DolphinConfigEditor.Model
-{
-  public class Controller
-  {
-    public enum Cols
-    {
+namespace DolphinConfigEditor.Model {
+  public class Controller {
+    public enum Cols {
       Port = 0,
       P2 = 2,
       P3 = 3,
@@ -20,8 +17,7 @@ namespace DolphinConfigEditor.Model
     public int dz1 { get; set; }
     public int dz2 { get; set; }
 
-    public override string ToString()
-    {
+    public override string ToString() {
       ControllerMap p1 = ControllerMap.GetMap(cid1, la1);
       ControllerMap p2 = ControllerMap.GetMap(cid2, la2);
 

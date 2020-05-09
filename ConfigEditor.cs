@@ -6,27 +6,22 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace DolphinConfigEditor
-{
-  public partial class ConfigEditor : Form
-  {
+namespace DolphinConfigEditor {
+  public partial class ConfigEditor : Form {
     [STAThread]
-    static void Main()
-    {
+    static void Main() {
       Application.EnableVisualStyles();
       Application.SetCompatibleTextRenderingDefault(false);
       Application.Run(new ConfigEditor());
     }
 
-    public ConfigEditor()
-    {
+    public ConfigEditor() {
       InitializeComponent();
 
       playerListGrid.Columns[CID].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
       playerListGrid.Columns[DEADZONE].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
       playerListGrid.Columns[LOCKORDER].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-      for (int i = 0; i < 8; i++)
-      {
+      for (int i = 0; i < 8; i++) {
         playerListGrid.Rows.Add();
         playerListGrid.Rows[i].Cells[CID].Value = $"{i}";
         playerListGrid.Rows[i].Cells[CID].Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
@@ -38,8 +33,7 @@ namespace DolphinConfigEditor
       }
     }
 
-    private void btnRandomize_Click(object sender, EventArgs e)
-    {
+    private void btnRandomize_Click(object sender, EventArgs e) {
       playerListGrid.ClearSelection();
 
       var sortList = new System.Collections.Generic.List<string>();
@@ -57,14 +51,12 @@ namespace DolphinConfigEditor
       System.Media.SystemSounds.Beep.Play();
     }
 
-    private void btnSaveCfg_Click(object sender, EventArgs e)
-    {
+    private void btnSaveCfg_Click(object sender, EventArgs e) {
       playerListGrid.ClearSelection();
       playerListGrid.Sort(playerListGrid.Columns[PORT], ListSortDirection.Ascending);
       string fileOutput = "";
 
-      for (int i = 0; i < 8; i += 2)
-      {
+      for (int i = 0; i < 8; i += 2) {
         Controller c = new Controller();
         DataGridViewRow row = playerListGrid.Rows[i];
 
@@ -81,17 +73,14 @@ namespace DolphinConfigEditor
         fileOutput += c;
       }
 
-      try
-      {
+      try {
         File.Delete(openConfigDialog.FileName);
         var sw = new StreamWriter(txtConfigFile.Text);
         sw.Write(fileOutput);
         sw.Flush();
         sw.Close();
         System.Media.SystemSounds.Beep.Play();
-      }
-      catch (Exception)
-      {
+      } catch (Exception) {
         Clipboard.SetText(fileOutput);
         MessageBox.Show("There was an error writing to the config file :(\n\n" +
           "Output has been copied to clipboard. Please manually overrite the config.",
@@ -100,10 +89,8 @@ namespace DolphinConfigEditor
       }
     }
 
-    private void gameCtrlsBtn_Click(object sender, EventArgs e)
-    {
-      try
-      {
+    private void gameCtrlsBtn_Click(object sender, EventArgs e) {
+      try {
         var path = System.Environment.GetFolderPath(Environment.SpecialFolder.System) + "\\joy.cpl";
         var fi = new System.IO.FileInfo(path);
         var psi = new System.Diagnostics.ProcessStartInfo(path);
@@ -111,19 +98,16 @@ namespace DolphinConfigEditor
         psi.WorkingDirectory = fi.Directory.FullName;
         psi.ErrorDialog = true;
         System.Diagnostics.Process.Start(psi);
-      }
-      catch (Exception) { }
+      } catch (Exception) { }
     }
 
-    private void btnCfgOpen_Click(object sender, EventArgs e)
-    {
+    private void btnCfgOpen_Click(object sender, EventArgs e) {
       playerListGrid.ClearSelection();
       if (openConfigDialog.ShowDialog() == DialogResult.OK)
         txtConfigFile.Text = openConfigDialog.FileName;
     }
 
-    private void playerListGrid_CellEnter(object sender, DataGridViewCellEventArgs e)
-    {
+    private void playerListGrid_CellEnter(object sender, DataGridViewCellEventArgs e) {
       bool validClick = (e.RowIndex != -1 && e.ColumnIndex != -1);
       DataGridView datagridview = sender as DataGridView;
 
@@ -131,13 +115,11 @@ namespace DolphinConfigEditor
         datagridview.BeginEdit(true);
     }
 
-    private void playerListGrid_CurrentCellDirtyStateChanged(object sender, EventArgs e)
-    {
+    private void playerListGrid_CurrentCellDirtyStateChanged(object sender, EventArgs e) {
       playerListGrid.CommitEdit(DataGridViewDataErrorContexts.Commit);
     }
 
-    private void playerListGrid_SortCompare(object sender, DataGridViewSortCompareEventArgs e)
-    {
+    private void playerListGrid_SortCompare(object sender, DataGridViewSortCompareEventArgs e) {
       e.SortResult = string.Compare(e.CellValue1.ToString(), e.CellValue2.ToString());
       /* Secondary sort for CID disabled
       if (e.SortResult == 0 && e.Column.Index != CID)
