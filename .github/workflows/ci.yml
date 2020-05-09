@@ -7,9 +7,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
-    - name: Setup MSBuild
-      uses: microsoft/setup-msbuild@v1
-    - name: Build 
+    - uses: microsoft/setup-msbuild@v1
+    - name: Build Solution
       run: msbuild DolphinConfigEditor.sln -p:Configuration=Release
     - name: Upload Artifact
       uses: actions/upload-artifact@v2
