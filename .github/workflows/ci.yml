@@ -1,0 +1,18 @@
+name: Build DolphinConfigEditor
+on: [push]
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v1
+    - name: Build 
+      run: msbuild DolphinConfigEditor.sln -p:Configuration=Release
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: DolphinConfigEditor
+        path: './bin/Release/DolphinConfigEditor.exe'
